@@ -1,0 +1,60 @@
+/* 🌙 General App Styling for QuizWhiz */
+
+/* Import a nice clean font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+:root {
+  --bg-color: #0b0e26;        /* Dark navy background */
+  /* --text-color: #ffffff;      White main text */
+  /* --accent-color: #71c8a8;    Mint green accent */
+  /* --secondary-text: #b0b0b0;  Muted gray text */
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Smooth animations for hover and transitions */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Utility classes for sections */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Buttons */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Scrollbar styling (optional, modern look) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--accent-color);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #101336;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+}
+html {
+  scroll-behavior: smooth;
+}
