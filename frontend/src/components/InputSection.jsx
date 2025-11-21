@@ -1,37 +1,56 @@
 import React, { useState } from "react";
 
-function InputSection() {
+function InputSection({ onStartQuiz }) {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [subject, setSubject] = useState("");
   const [numQuestions, setNumQuestions] = useState("");
 
   const handleQuestionsChange = (e) => {
-    const value = Math.min(50, Number(e.target.value)); // limit max 50
-    setNumQuestions(value);
+    const value = e.target.value;
+    if (value === "") {
+      setNumQuestions("");
+    } else {
+      const num = Number(value);
+      if (!isNaN(num) && num >= 1 && num <= 50) {
+        setNumQuestions(num);
+      }
+      // Ignore invalid input (non-number, <1, >50)
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!fullName || !username || !subject || !numQuestions) {
+
+    if (
+      !fullName.trim() ||
+      !username.trim() ||
+      !subject ||
+      !numQuestions ||
+      Number(numQuestions) < 1
+    ) {
       alert("Please fill out all fields before starting the quiz!");
       return;
     }
-    alert(
-      `Starting ${numQuestions} ${subject} questions for ${fullName} (@${username})!`
-    );
+
+    onStartQuiz({
+      fullName: fullName.trim(),
+      username: username.trim(),
+      subject,
+      numQuestions: Number(numQuestions),
+    });
   };
 
   return (
     <div className="mt-10 min-h-screen bg-[#0b0e26] flex flex-col items-center justify-center px-6 py-10">
       <div className="bg-white shadow-lg shadow-blue-500 rounded-xl p-6 w-full max-w-md sm:max-w-lg">
-        <h1 className="text-2xl sm:text-2xl font-bold text-center text-[#0b0e26] mb-6">
+        <h1 className="text-2xl font-bold text-center text-[#0b0e26] mb-6">
           Enter Details
         </h1>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 ">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Full Name */}
-          <div className="flex flex-col w-full ">
+          <div className="flex flex-col w-full">
             <label htmlFor="fullName" className="text-gray-700 font-medium mb-1">
               Full Name:
             </label>
@@ -77,7 +96,7 @@ function InputSection() {
               <option value="">-- Choose a subject --</option>
               <option value="Java">Java</option>
               <option value="JavaScript">JavaScript</option>
-                            <option value="Python">Python</option>
+              <option value="Python">Python</option>
               <option value="DSA">DSA</option>
               <option value="Cpp">C++</option>
               <option value="React">React.js</option>
@@ -86,10 +105,7 @@ function InputSection() {
 
           {/* Number of Questions */}
           <div className="flex flex-col w-full">
-            <label
-              htmlFor="numQuestions"
-              className="text-gray-700 font-medium mb-1"
-            >
+            <label htmlFor="numQuestions" className="text-gray-700 font-medium mb-1">
               Number of Questions (Max 50):
             </label>
             <input
@@ -97,7 +113,7 @@ function InputSection() {
               id="numQuestions"
               value={numQuestions}
               onChange={handleQuestionsChange}
-              placeholder="Enter number"
+              placeholder="1–50"
               min="1"
               max="50"
               className="border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-[#71c8a8]"
@@ -121,4 +137,3 @@ function InputSection() {
 }
 
 export default InputSection;
-

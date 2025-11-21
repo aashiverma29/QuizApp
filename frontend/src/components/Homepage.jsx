@@ -7,7 +7,7 @@ function Homepage() {
     const navigate = useNavigate();
 
     const handleStart = () => {
-        navigate("/domains");
+        navigate("/quiz"); // ✅ Changed from "/domains" to "/quiz"
     };
 
     return (
@@ -15,7 +15,7 @@ function Homepage() {
             <Navbar />
             <div className="flex flex-col items-start justify-center px-6 sm:px-10 lg:px-24 py-16 md:py-24 text-white w-full max-w-6xl mx-auto gap-8">
                 {/* Logo + Heading */}
-                <div className="flex flex-col sm:flex-row sm:items-center w-full  mb-8">
+                <div className="flex flex-col sm:flex-row sm:items-center w-full mb-8">
                     {/* Logo */}
                     <div className="flex-shrink-0 bg-[#0b0e26] p-1 rounded-2xl shadow-lg flex items-center justify-center w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36">
                         <img
@@ -26,7 +26,7 @@ function Homepage() {
                     </div>
 
                     {/* Title Text */}
-                    <div className="text-left">
+                    <div className="text-left mt-4 sm:mt-0 sm:ml-6">
                         <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 text-gray-400">
                             Quiz Application -
                         </h3>
