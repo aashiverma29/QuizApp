@@ -12,7 +12,6 @@ app.use(express.json());
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// ✅ Use 'gemini-1.5-flash' — it will auto-use v1 API
 app.post('/api/generate-quiz', async (req, res) => {
   const { subject, numQuestions } = req.body;
 
@@ -21,7 +20,6 @@ app.post('/api/generate-quiz', async (req, res) => {
   }
 
   try {
-    // ✅ Correct model name — no version in name!
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const prompt = `
@@ -69,5 +67,5 @@ app.post('/api/generate-quiz', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Backend running on http://localhost:${PORT}`);
+  console.log(`Backend running on http://localhost:${PORT}`);
 });
