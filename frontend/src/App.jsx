@@ -5,7 +5,7 @@ import Homepage from './components/Homepage';
 import About from './components/About';
 import Domains from './components/Domains';
 import LeaderBoard from './components/LeaderBoard';
-import QuizFlow from './components/QuizFlow'; // ✅ new import
+import QuizFlow from './components/QuizFlow';
 import "./App.css";
 
 const router = createBrowserRouter([
@@ -18,14 +18,9 @@ const router = createBrowserRouter([
     element: <About />,
   },
   {
-    path: "/domains",
-    element: <Domains />,
-  },
-  {
     path: "/leader-board",
     element: <LeaderBoard />,
   },
-  // ✅ Add quiz route
   {
     path: "/quiz",
     element: <QuizFlow />,
