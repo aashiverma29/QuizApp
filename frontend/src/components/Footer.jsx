@@ -21,7 +21,7 @@ function Footer() {
         <a href="/about" className="hover:text-[#71c8a8] text-sm">
           About
         </a>
-        <a href="/domains" className="hover:text-[#71c8a8] text-sm">
+        <a href="/Quiz" className="hover:text-[#71c8a8] text-sm">
           StartQuiz
         </a>
         <a href="/leader-board" className="hover:text-[#71c8a8] text-sm">

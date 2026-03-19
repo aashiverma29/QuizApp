@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import InputSection from "./InputSection";
 import QuizSection from "./Quiz";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 export default function QuizFlow() {
   const [quizData, setQuizData] = useState(null); // ab questions + config dono
@@ -49,7 +51,7 @@ export default function QuizFlow() {
       <div className="min-h-screen bg-[#0b0e26] text-white flex items-center justify-center">
         <p className="text-xl">🧠 Generating your quiz...</p>
       </div>
-    );
+    );u
   }
 
   if (error) {
@@ -67,8 +69,8 @@ export default function QuizFlow() {
   }
 
   return quizData ? (
-    <QuizSection quizData={quizData} onRestart={handleRestart} />
+    <div> <Navbar/> <QuizSection quizData={quizData} onRestart={handleRestart} /> <Footer/> </div>
   ) : (
-    <InputSection onStartQuiz={handleStartQuiz} />
+    <div> <Navbar/> <InputSection onStartQuiz={handleStartQuiz} /> <Footer/> </div>
   );
 }
