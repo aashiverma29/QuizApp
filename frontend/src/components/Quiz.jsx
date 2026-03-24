@@ -1,44 +1,69 @@
 // src/components/QuizSection.jsx
 import React, { useState } from "react";
+import axios from "axios";
 
 function QuizSection({ quizData, onRestart }) {
-  // ✅ Directly use quizData.questions
   const { questions, fullName, username, subject } = quizData;
 
   const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false); // ✅ FIX
 
   const handleAnswerClick = (qIndex, optionIndex) => {
     if (selectedAnswers[qIndex] !== undefined) return;
-    setSelectedAnswers({ ...selectedAnswers, [qIndex]: optionIndex });
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [qIndex]: optionIndex,
+    }));
   };
 
-  const handleFinalSubmit = () => {
+  const handleFinalSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     let score = 0;
     questions.forEach((q, idx) => {
       if (selectedAnswers[idx] === q.correct) score++;
     });
-    alert(`Quiz submitted!\nScore: ${score}/${questions.length}`);
-    onRestart();
+
+    try {
+      await axios.post("http://localhost:5000/api/score", {
+        fullName,
+        username,
+        subject,
+        score,
+        total: questions.length,
+        answers: selectedAnswers,
+      });
+
+      alert(`Quiz submitted!\nScore: ${score}/${questions.length}`);
+      onRestart();
+    } catch (error) {
+      console.error(error);
+      alert("Submission failed!");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const allAnswered = questions.length > 0 && 
-                     Object.keys(selectedAnswers).length === questions.length;
+  const allAnswered =
+    questions.length > 0 &&
+    Object.keys(selectedAnswers).length === questions.length;
 
   return (
     <div className="min-h-screen bg-[#0b0e26] text-white flex flex-col items-center py-12 px-6">
       <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-[#71c8a8]">
         Quiz Time!
       </h1>
+
       <p className="mb-6 text-white/80">
-        Subject: <span className="font-semibold">{subject}</span> | 
-        Questions: {questions.length}
+        Subject: <span className="font-semibold">{subject}</span> | Questions:{" "}
+        {questions.length}
       </p>
 
       <div className="w-full max-w-3xl space-y-8">
         {questions.map((q, qIndex) => {
           const userAnswer = selectedAnswers[qIndex];
           const isAnswered = userAnswer !== undefined;
-          const isCorrect = isAnswered && userAnswer === q.correct;
 
           return (
             <div
@@ -95,14 +120,14 @@ function QuizSection({ quizData, onRestart }) {
       <div className="mt-12">
         <button
           onClick={handleFinalSubmit}
-          disabled={!allAnswered}
+          disabled={!allAnswered || isSubmitting}
           className={`px-8 py-3.5 rounded-2xl font-bold text-lg transition-all duration-200 ${
-            allAnswered
+            allAnswered && !isSubmitting
               ? "bg-[#71c8a8] text-[#0b0e26] hover:scale-105 shadow-md"
               : "bg-gray-600 text-gray-400 cursor-not-allowed"
           }`}
         >
-          Final Submit
+          {isSubmitting ? "Submitting..." : "Final Submit"}
         </button>
       </div>
     </div>

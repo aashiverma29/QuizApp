@@ -1,26 +1,15 @@
 const mongoose = require("mongoose");
 
-const scoreSchema = new mongoose.Schema(
-  {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-    },
-    score: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-    subject: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-  }
-);
+const scoreSchema = new mongoose.Schema({
+  fullName: String,
+  username: { type: String, required: true },
+  subject: { type: String, required: true },
+  score: { type: Number, required: true },
+  total: Number,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-const Score = mongoose.model("Score", scoreSchema);
-
-module.exports = Score;
+module.exports = mongoose.model("Score", scoreSchema);
